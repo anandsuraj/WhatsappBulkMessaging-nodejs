@@ -31,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/Briuor/wbm/issues"
   },
-  "homepage": "https://github.com/Briuor/wbm#readme"
-}
+  "scripts": {
+    "start": "node test.js"
+  },
+    "homepage": "https://github.com/Briuor/wbm#readme"
+  }
