@@ -1,10 +1,8 @@
-[![npm version](https://img.shields.io/npm/v/wbm.svg?color=%2378e08f)](https://www.npmjs.com/package/wbm)
-
-# wbm
-> wbm is an **unofficial** API to send bulk messages in whatsapp.
+# WhatsBulkMessenger
+> WhatsBulkMessenger is an **unofficial** API to send bulk messages in WhatsApp.
 
 <p align="center"> 
-<img style="border-radius: 5px" src="https://raw.githubusercontent.com/Briuor/wbm/master/assets/demo.gif">
+<img style="border-radius: 5px" src="assets/demo.gif">
 </p>
 
 ## Installation
@@ -13,51 +11,51 @@
 ```
 
 ## Usage
-**At the beginning it will display a QR Code on terminal, just scan it using whatsapp app.<br />
-Your session will be remembered, there is no need to authenticate everytime.**
+**At the beginning, it will display a QR Code on the terminal, just scan it using the WhatsApp app.<br />
+Your session will be remembered, there is no need to authenticate every time.**
 
-### Send same message to every contact
+### Send the same message to every contact
 
 ```javascript
-const wbm = require('wbm');
+const WhatsBulkMessenger = require('wbm');
 
-wbm.start().then(async () => {
-    const phones = ['5535988841854', '35988841854', '5535988841854'];
-    const message = 'Good Morning.';
-    await wbm.send(phones, message);
-    await wbm.end();
+WhatsBulkMessenger.start().then(async () => {
+    const phones = ['1234567890', '0987654321', '1122334455'];
+    const message = 'This is a long dummy message. You can replace this text with any long message you want to send. Make sure to customize this section with the content you wish to deliver to your recipients. Include all necessary details and information clearly and concisely.';
+    await WhatsBulkMessenger.send(phones, message);
+    await WhatsBulkMessenger.end();
 }).catch(err => console.log(err));
 
 ```
-### Send custom message to every contact
+### Send custom messages to every contact
 
 ```javascript
-const wbm = require('wbm');
+const WhatsBulkMessenger = require('wbm');
 
-wbm.start().then(async () => {
+WhatsBulkMessenger.start().then(async () => {
     const contacts = [
-        { phone: '5535988841854', name: 'Bruno', age: 21 },
-        { phone: '5535988841854', name: 'Will', age: 33 }
+        { phone: '1234567890', name: 'Alice', age: 25 },
+        { phone: '0987654321', name: 'Bob', age: 30 }
     ];
     const message = 'Hi {{name}}, your age is {{age}}';
-    // Hi Bruno, your age is 21
-    // Hi Will, your age is 33
-    await wbm.send(contacts, message);
-    await wbm.end();
+    // Hi Alice, your age is 25
+    // Hi Bob, your age is 30
+    await WhatsBulkMessenger.send(contacts, message);
+    await WhatsBulkMessenger.end();
 }).catch(err => console.log(err));
 ```
 
 ### Send custom messages using YOUR OWN RULE
 
 ```javascript
-const wbm = require('wbm');
+const WhatsBulkMessenger = require('wbm');
 
-wbm.start().then(async () => {
+WhatsBulkMessenger.start().then(async () => {
     const contacts = [
-        { phone: '5535988841854', name: 'Bruno', group: 'friend' }, 
-        { phone: '5535988841854', name: 'Will', group: 'customer' }
+        { phone: '1234567890', name: 'Alice', group: 'friend' }, 
+        { phone: '0987654321', name: 'Bob', group: 'customer' }
     ];
-    for (contact of contacts) {
+    for (const contact of contacts) {
         let message = 'hi';
         if(contact.group === 'customer') {
             message = 'Good morning ' + contact.name;
@@ -65,9 +63,9 @@ wbm.start().then(async () => {
         else if(contact.group === 'friend') {
             message = 'Hey ' + contact.name + '. Wassup?';
         }
-        await wbm.sendTo(contact.phone, message);
+        await WhatsBulkMessenger.sendTo(contact.phone, message);
     }
-    await wbm.end();
+    await WhatsBulkMessenger.end();
 }).catch(err => console.log(err));
 
 ```
@@ -75,96 +73,96 @@ wbm.start().then(async () => {
 ## API
 ### start(options)
 * **options**<br />
-	Object containing optional parameters as attribute.<br />
-	Type: `object`<br />
-	* **showBrowser**<br />
-	Show browser running the script.<br />
-	Default: `false`<br />
-	Type: `boolean`<br />
-	* **qrCodeData**<br />
-	Instead of generate the QR Code, returns the data used to generate the QR Code as promise.<br />
-	Default: `false`<br />
-	Type: `boolean`<br />
-	* **session**<br />
-	Keep user session, so the user must scan the QR Code once.<br />
-	Default: `true`<br />
-	Type: `boolean`
+    Object containing optional parameters as attribute.<br />
+    Type: `object`<br />
+    * **showBrowser**<br />
+    Show browser running the script.<br />
+    Default: `false`<br />
+    Type: `boolean`<br />
+    * **qrCodeData**<br />
+    Instead of generating the QR Code, returns the data used to generate the QR Code as a promise.<br />
+    Default: `false`<br />
+    Type: `boolean`<br />
+    * **session**<br />
+    Keep user session, so the user must scan the QR Code once.<br />
+    Default: `true`<br />
+    Type: `boolean`
 
 ```javascript
-// It will open a browser, return the QR code data as promise and not keep user session
-wbm.start({showBrowser: true, qrCodeData: true, session: false})
+// It will open a browser, return the QR code data as a promise, and not keep user session
+WhatsBulkMessenger.start({showBrowser: true, qrCodeData: true, session: false})
 .then(async qrCodeData => {
     console.log(qrCodeData); // show data used to generate QR Code
-    await wbm.waitQRCode();
+    await WhatsBulkMessenger.waitQRCode();
     // waitQRCode() is necessary when qrCodeData is true
     // ...
-    await wbm.end();
+    await WhatsBulkMessenger.end();
 } ).catch(err => { console.log(err); });
 ```
 
 ### send(phoneOrContacts, message)
 
-Send message to every phone number.
+Send a message to every phone number.
 
 - **phoneOrContacts**<br />
-Array of phone numbers: ['5535988841854', ...].<br />
+Array of phone numbers: ['1234567890', ...].<br />
 Or <br />
-Array of contacts: [{phone: '5535988841854', name: 'Will', group: 'partner', age: 22', any: 'anything', ...}, ...]<br />
+Array of contacts: [{phone: '1234567890', name: 'Alice', group: 'partner', age: 25', any: 'anything', ...}, ...]<br />
 Type: `array`
 
 - **message**<br />
 Message to send to every phone number.<br />
-Text inside curly braces like {{attribute}} will be replaced by the contact object respective attribute.<br />
+Text inside curly braces like {{attribute}} will be replaced by the contact object's respective attribute.<br />
 Type: `string`
 
 ```javascript
-wbm.start().then(async () => {
+WhatsBulkMessenger.start().then(async () => {
     const contacts = [
-        {phone: '5535988841854', name: 'Bruno'},
-        {phone: '5535988841854', name: 'Will'}
+        {phone: '1234567890', name: 'Alice'},
+        {phone: '0987654321', name: 'Bob'}
     ];
-    await wbm.send(contacts, 'Hey {{name}}');
-    // Hey Bruno
-    // Hey Will
-    await wbm.send(['5535988841854', '5535988841854'], 'Hey man'); 
-    // Hey man
-    // Hey man
-    await wbm.end();
+    await WhatsBulkMessenger.send(contacts, 'Hey {{name}}');
+    // Hey Alice
+    // Hey Bob
+    await WhatsBulkMessenger.send(['1234567890', '0987654321'], 'Hey there'); 
+    // Hey there
+    // Hey there
+    await WhatsBulkMessenger.end();
 }).catch(err => { console.log(err); });
 ```
 
 ### sendTo(phoneOrContact, message)
 
-Send message to a single phone number.
+Send a message to a single phone number.
 
 - **phoneOrContact**<br />
-Phone number. Example '5535988841854'.<br />
+Phone number. Example '1234567890'.<br />
 Type: `string`<br />
 Or
-Contact object. Example: {phone: '5535988841854', name: 'Will', group: 'partner'}<br />
+Contact object. Example: {phone: '1234567890', name: 'Alice', group: 'partner'}<br />
 Type: `object`
 
 - **message**<br />
-Message to send to phone number.<br />
-Text inside curly braces like {{attribute}} will be replaced by the contact object respective attribute.<br />
+Message to send to the phone number.<br />
+Text inside curly braces like {{attribute}} will be replaced by the contact object's respective attribute.<br />
 Type: `string`
 
 ```javascript
-wbm.start().then(async () => {
-    await wbm.sendTo({phone: '5535988841854', name: 'Bruno'}, 'Hey {{name}}');
-    // Hey Bruno
-    await wbm.sendTo('5535988841854', 'Hey man');
-    // Hey man
-    await wbm.end();
+WhatsBulkMessenger.start().then(async () => {
+    await WhatsBulkMessenger.sendTo({phone: '1234567890', name: 'Alice'}, 'Hey {{name}}');
+    // Hey Alice
+    await WhatsBulkMessenger.sendTo('0987654321', 'Hey there');
+    // Hey there
+    await WhatsBulkMessenger.end();
 }).catch(err => { console.log(err); });
 ```
 
 ### end()
-This method must be used at the end of wbm.start() to finish the browser.
+This method must be used at the end of WhatsBulkMessenger.start() to finish the browser session.
 
 
 ## Note
-**wbm** is an **unofficial** solution. It's not recommended using **wbm** in your company or for marketing purpose.
+**WhatsBulkMessenger** is an **unofficial** solution. It's not recommended to use **WhatsBulkMessenger** in your company or for marketing purposes.
 
 ## Contributing
 

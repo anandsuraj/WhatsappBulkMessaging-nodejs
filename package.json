@@ -5,15 +5,15 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.5"
   },
-  "name": "wbm",
-  "description": "wbm is an API to send bulk messages in whatsapp.",
-  "version": "1.1.14",
+  "name": "whatsapp-bulk-messaging",
+  "description": "whatsapp-bulk-messaging is an API to send bulk messages in whatsapp.",
+  "version": "1.1",
   "main": "src/index.js",
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Briuor/wbm.git",
-    "directory": "packages/wbm"
+    "url": "git+https://github.com/anandsuraj/whatsapp-bulk-messaging.git",
+    "directory": "packages/whatsapp-bulk-messaging"
   },
   "keywords": [
     "whatsapp",
@@ -24,15 +24,18 @@
     "whatsapp-sender",
     "whatsapp-message-sender",
     "bulk-messages",
-    "bulk-messages-api"
+    "bulk-messages-api",
+    "messaging",
+    "bulk-messaging",
+    "whatsapp-messaging"
   ],
-  "author": "Briuor",
+  "author": "Suraj Anand",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Briuor/wbm/issues"
+    "url": "https://github.com/anandsuraj/whatsapp-bulk-messaging/issues"
   },
   "scripts": {
     "start": "node test.js"
   },
-    "homepage": "https://github.com/Briuor/wbm#readme"
-  }
+  "homepage": "https://github.com/anandsuraj/whatsapp-bulk-messaging#readme"
+}
